@@ -39,8 +39,9 @@ void indexGameFiles(const char *basePath, const char *prefix) {
 
     while ((entry = readdir(dir)) != NULL) {
         // Skip . and ..
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
             continue;
+        }
 
         char fullPath[PATH_MAX];
         char relativePath[PATH_MAX];
@@ -87,6 +88,8 @@ void indexManifest(const char *manifestPath) {
         }
         addManifestFile(nameColumn);
     }
+    fclose(manifestFile);
+    free(buffer);
 }
 
 int compare(const void *a, const void *b) {
@@ -97,8 +100,8 @@ void checkFileIntegrity() {
     int gameIndexedCount = 0;
     int manifestIndexedCount = 0;
 
-    printf("Game Indexed: %llu\n", gameIndexedSize);
-    printf("Manifest Indexed: %llu\n", manifestIndexedSize);
+    printf("Game Indexed: %d\n", (int) gameIndexedSize);
+    printf("Manifest Indexed: %d\n", (int) manifestIndexedSize);
 
     while (gameIndexedCount < gameIndexedSize || manifestIndexedCount < manifestIndexedSize) {
         if (gameIndexedCount < gameIndexedSize && manifestIndexedCount < manifestIndexedSize) {
@@ -129,8 +132,11 @@ int main (const int argc, char *argv[]) {
     }else if (argc == 2 && strcmp(argv[1], "help") == 0) {
         printf("Provide absolute path to game, followed by one or multiple total/relative paths to manifest files. \n");
         printf("For example:\n");
-        printf(".\\SICK.exe \"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Helldivers 2\" \".\\depots\\553851\\19232456\\manifest_553851_4333239040659935267.txt\" \".\\depots\\553853...\" ...");
-    } else if (argc > 2) {
+        printf(".\\SICK.exe \"C:\\Program Files (x86)\\Steam\\steamapps\\common\\Helldivers 2\" \".\\depots\\553851\\19232456\\manifest_553851_4333239040659935267.txt\" \".\\depots\\553853...\" ...\n");
+    } else if (argc == 2) {
+        printf("not enough arguments provided, run \"SICK.exe help\" for information on correct usage\n");
+    }
+    else if (argc > 2) {
         indexGameFiles(argv[1], "");
         for (int i = 1; i < argc; i++) {
             indexManifest(argv[i]);
@@ -140,6 +146,15 @@ int main (const int argc, char *argv[]) {
 
         checkFileIntegrity();
     }
+
+    for (int i = 0; i < gameIndexedSize; i++) {
+        free(gameIndexed[i]);
+    }
+    free(gameIndexed);
+    for (int i = 0; i < manifestIndexedSize; i++) {
+        free(manifestIndexed[i]);
+    }
+    free(manifestIndexed);
 
     return (EXIT_SUCCESS);
 }
