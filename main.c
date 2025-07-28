@@ -100,8 +100,8 @@ void checkFileIntegrity() {
     int gameIndexedCount = 0;
     int manifestIndexedCount = 0;
 
-    printf("Game Indexed: %d\n", (int) gameIndexedSize);
-    printf("Manifest Indexed: %d\n", (int) manifestIndexedSize);
+    printf("Game Indexed: %lu\n", (long unsigned) gameIndexedSize);
+    printf("Manifest Indexed: %lu\n", (long unsigned) manifestIndexedSize);
 
     while (gameIndexedCount < gameIndexedSize || manifestIndexedCount < manifestIndexedSize) {
         if (gameIndexedCount < gameIndexedSize && manifestIndexedCount < manifestIndexedSize) {
