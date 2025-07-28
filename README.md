@@ -15,5 +15,5 @@ Download From [releases](https://github.com/level3cache/Steam-Integrity-Checker-
 ### Usage
 |OS|Command|
 |---|---|
-|Windows| `SICK.exe <path-to-game-folder> <path-to-manifest-file> (<path-to-subsequent-manifest-files>)` |
-| Linux | `SICK <path-to-game-folder> <path-to-manifest-file> (<path-to-subsequent-manifest-files>)` |
+|Windows| `SICK_Windows.exe <path-to-game-folder> <path-to-manifest-file> (<path-to-subsequent-manifest-files>)` |
+| Linux | `SICK_Linux <path-to-game-folder> <path-to-manifest-file> (<path-to-subsequent-manifest-files>)` |
